@@ -1,0 +1,16 @@
+<project name="TuringMachine" default="dist" basedir=".">
+	<!-- Compila el proyecto, deja los archivos class en el directorio bin -->
+	<target name="compile">
+		<mkdir dir="bin" />
+		<javac srcdir="src" destdir="bin" includeantruntime="false"/>
+	</target>
+
+	<!-- Crea el jar ejecutable con todo el proyecto compilado. -->
+	<target name="dist" depends="compile">
+		<jar destfile="TuringMachine.jar" basedir="bin">
+			<manifest>
+				<attribute name="Main-Class" value="logic.TuringMachine" />
+			</manifest>
+		</jar>
+	</target>
+</project>
