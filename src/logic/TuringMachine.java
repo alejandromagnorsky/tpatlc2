@@ -34,13 +34,19 @@ public class TuringMachine {
 		}
 		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(System.in)));
+		
 		String tape = null;
 		try {
 			tape = reader.readLine();
-			if( tape == null)
+			if (tape == null)
 				tape = "";
 		} catch(IOException e) {
 			System.err.println("/!\\ Error reading from input.");
+			System.exit(1);
+		}
+		
+		if (!tape.matches("[0-2]*")){
+			System.err.println("/!\\ Invalid tape format.");
 			System.exit(1);
 		}
 		
