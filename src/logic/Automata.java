@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Automata<T> {
+public class Automata {
 
 	protected class State {
 		public String name;
@@ -19,6 +19,10 @@ public class Automata<T> {
 		public State(String name) {
 			this.name = name;
 			this.adj = new HashSet<Arc>();
+		}
+		
+		public String getName(){
+			return name;
 		}
 
 		@Override
@@ -48,11 +52,11 @@ public class Automata<T> {
 	}
 
 	protected class Arc {
-		public T symbol;
+		public Integer symbol;
 		public String action;
 		public State neighbor;
 
-		public Arc(T number, String action, State neighbor) {
+		public Arc(Integer number, String action, State neighbor) {
 			this.symbol = number;
 			this.action = action;
 			this.neighbor = neighbor;
@@ -87,6 +91,7 @@ public class Automata<T> {
 
 	// Para ubicar los nodos rápidamente
 	protected HashMap<String, State> states;
+	
 	// Para recorrer la lista de nodos
 	protected List<State> stateList; 
 
@@ -109,7 +114,7 @@ public class Automata<T> {
 		return false;
 	}
 
-	public boolean addArc(String v, String w, T symbol, String action) {
+	public boolean addArc(String v, String w, Integer symbol, String action) {
 		State origin = states.get(v);
 		State dest = states.get(w);
 		if (origin != null && dest != null && symbol != null) {
@@ -124,11 +129,11 @@ public class Automata<T> {
 		return false;
 	}
 
-	public String getFirstState() {
-		return stateList.get(0).name;
+	public State getFirstState() {
+		return stateList.get(0);
 	}
 
-	public String getNeighbor(String name, T symbol) {
+	public String getNeighbor(String name, Integer symbol) {
 		State state = states.get(name);
 		if (state == null || symbol == null)
 			return null;
@@ -138,7 +143,7 @@ public class Automata<T> {
 		return null;
 	}
 
-	public String getAction(String name, T symbol) {
+	public String getAction(String name, Integer symbol) {
 		State state = states.get(name);
 		if (state == null || symbol == null)
 			return null;
@@ -172,6 +177,45 @@ public class Automata<T> {
 		} finally {
 			if (output != null)
 				output.close();
+		}
+	}
+	
+	public String execute(String tape){
+		State initial = getFirstState();
+		return execute(tape, initial, 0);
+	}
+	
+	private String execute(String tape, State q, int index){
+		int symbolInTape;
+		if (index < 0 || tape.length() <= index)
+			symbolInTape = 0;
+		else
+			symbolInTape = Integer.valueOf(tape.charAt(index) + "");
+		
+		Arc destination = null;
+		for (Arc e : q.adj)
+			if (e.symbol.intValue() == symbolInTape){
+				destination = e;
+				break;
+			}
+		
+		if(destination == null)
+			return tape;
+		
+		if (destination.action.equals(">")){
+			if (index+1 >= tape.length())
+				tape = tape + "0";
+			return execute(tape, destination.neighbor, index+1);
+		} else if (destination.action.equals("<")){
+			if (index-1 < 0)
+				tape = "0" + tape;
+			return execute(tape, destination.neighbor, 0);
+		} else {
+			if (index+1 <= tape.length())
+				tape = tape.substring(0, index) + destination.action + tape.substring(index+1);
+			else
+				tape = tape.substring(0, index) + destination.action;
+			return execute(tape, destination.neighbor, index);
 		}
 	}
 }

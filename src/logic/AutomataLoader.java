@@ -6,14 +6,14 @@ import java.io.IOException;
 
 public class AutomataLoader {
 
-	public static Automata<Integer> load(String filename) throws IOException {
+	public static Automata load(String filename) throws IOException {
 		BufferedReader reader = null;
-		Automata<Integer> automata = null;
+		Automata automata = null;
 		try {
 			reader = new BufferedReader(new FileReader(filename));
 			String origin, destination, action, line;
 			int number;
-			automata = new Automata<Integer>();
+			automata = new Automata();
 			while ((line = reader.readLine()) != null) {
 				if (!line.matches("[a-zA-Z0-9]+,[0-2],[a-zA-Z0-9]+,[<>0-2]")) {
 					System.err.println("/!\\ Invalid file format.");
