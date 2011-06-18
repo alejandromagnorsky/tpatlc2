@@ -1,6 +1,9 @@
 package logic;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class TuringMachine {
 
@@ -22,21 +25,27 @@ public class TuringMachine {
 			System.exit(1);
 		}
 
-		Automata<Integer> automata = null;
+		Automata automata = null;
 		try {
 			automata = AutomataLoader.load(filename);
 		} catch (IOException e) {
 			System.err.println("/!\\ Error reading file.");
 			System.exit(1);
 		}
-
-		String q0 = automata.getFirstState();
-		System.out.println(q0);
-		System.out.println(automata.getAction(q0, 1));
-		String q1 = automata.getNeighbor(q0, 0);
-		System.out.println(automata.getAction(q1, 1));
-		System.out.println(automata.getNeighbor(q1, 1));
-
+		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(System.in)));
+		String tape = null;
+		try {
+			tape = reader.readLine();
+			if( tape == null)
+				tape = "";
+		} catch(IOException e) {
+			System.err.println("/!\\ Error reading from input.");
+			System.exit(1);
+		}
+		
+		System.out.println(automata.execute(tape));
+		
 		if (generateDot)
 			try {
 				automata.export(filename);
