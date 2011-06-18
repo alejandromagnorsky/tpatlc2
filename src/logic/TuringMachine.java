@@ -49,6 +49,9 @@ public class TuringMachine {
 		} catch (NumberFormatException e){
 			System.err.println("/!\\ Invalid tape.");
 			System.exit(1);			
+		} catch (StackOverflowError e){
+			System.err.println("/!\\ Cyclic behaviour in automata.");
+			System.exit(1);			
 		}
 			
 		if (generateDot)

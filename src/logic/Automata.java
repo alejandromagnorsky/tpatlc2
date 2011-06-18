@@ -199,8 +199,11 @@ public class Automata {
 				break;
 			}
 		
-		if(destination == null)
+		if(destination == null){
+			if (tape.length() == 0)
+				return "0";
 			return tape;
+		}
 		
 		if (destination.action.equals(">")){
 			if (index+1 >= tape.length())
