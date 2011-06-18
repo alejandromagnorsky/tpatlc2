@@ -44,8 +44,13 @@ public class TuringMachine {
 			System.exit(1);
 		}
 		
-		System.out.println(automata.execute(tape));
-		
+		try {
+			System.out.println(automata.execute(tape.trim()));
+		} catch (NumberFormatException e){
+			System.err.println("/!\\ Invalid tape.");
+			System.exit(1);			
+		}
+			
 		if (generateDot)
 			try {
 				automata.export(filename);
