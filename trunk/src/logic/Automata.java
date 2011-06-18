@@ -85,9 +85,10 @@ public class Automata<T> {
 		}
 	}
 
-	protected HashMap<String, State> states; // Para ubicar los nodos
-	// rápidamente
-	protected List<State> stateList; // Para recorrer la lista de nodos
+	// Para ubicar los nodos rápidamente
+	protected HashMap<String, State> states;
+	// Para recorrer la lista de nodos
+	protected List<State> stateList; 
 
 	public Automata() {
 		this.states = new HashMap<String, State>();
