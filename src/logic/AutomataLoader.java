@@ -12,7 +12,7 @@ public class AutomataLoader {
 		try {
 			reader = new BufferedReader(new FileReader(filename));
 			String origin, destination, action, line;
-			Integer number, beginIndex, endIndex;
+			int number;
 			automata = new Automata<Integer>();
 			while ((line = reader.readLine()) != null) {
 				if (!line.matches("[a-zA-Z0-9]+,[0-2],[a-zA-Z0-9]+,[<>0-2]")) {
@@ -20,18 +20,11 @@ public class AutomataLoader {
 					System.exit(1);
 				}
 
-				beginIndex = 0;
-				endIndex = line.indexOf(',', beginIndex);
-				origin = line.substring(beginIndex, endIndex);
-				beginIndex = endIndex + 1;
-				endIndex = line.indexOf(',', beginIndex);
-				number = Integer.valueOf(line.substring(beginIndex, endIndex));
-				beginIndex = endIndex + 1;
-				endIndex = line.indexOf(',', beginIndex);
-				destination = line.substring(beginIndex, endIndex);
-				beginIndex = endIndex + 1;
-				endIndex = line.length();
-				action = line.substring(beginIndex, endIndex);
+				String[] args = line.split(",");
+				origin = args[0];
+				number = Integer.valueOf(args[1]);
+				destination = args[2];
+				action = args[3];
 
 				automata.addState(origin);
 				automata.addState(destination);
