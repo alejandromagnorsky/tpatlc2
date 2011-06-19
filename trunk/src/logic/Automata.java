@@ -212,7 +212,7 @@ public class Automata {
 		} else if (destination.action.equals("<")){
 			if (index-1 < 0){
 				tape = "0" + tape;
-				index = 0;
+				index = 1;
 			}
 			return execute(tape, destination.neighbor, index-1);
 		} else {
