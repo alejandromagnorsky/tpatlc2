@@ -32,6 +32,14 @@ public class TuringMachine {
 			System.err.println("/!\\ Error reading file.");
 			System.exit(1);
 		}
+			
+		if (generateDot)
+			try {
+				automata.export(filename);
+			} catch (IOException e) {
+				System.err.println("/!\\ Error writing file.");
+				System.exit(1);
+			}
 		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(System.in)));
 		
@@ -59,14 +67,6 @@ public class TuringMachine {
 			System.err.println("/!\\ Cyclic behaviour in automata.");
 			System.exit(1);			
 		}
-			
-		if (generateDot)
-			try {
-				automata.export(filename);
-			} catch (IOException e) {
-				System.err.println("/!\\ Error writing file.");
-				System.exit(1);
-			}
 
 	}
 }

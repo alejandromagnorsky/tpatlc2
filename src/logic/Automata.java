@@ -204,15 +204,17 @@ public class Automata {
 				return "0";
 			return tape;
 		}
-		
+			
 		if (destination.action.equals(">")){
 			if (index+1 >= tape.length())
 				tape = tape + "0";
 			return execute(tape, destination.neighbor, index+1);
 		} else if (destination.action.equals("<")){
-			if (index-1 < 0)
+			if (index-1 < 0){
 				tape = "0" + tape;
-			return execute(tape, destination.neighbor, 0);
+				index = 0;
+			}
+			return execute(tape, destination.neighbor, index-1);
 		} else {
 			if (index+1 <= tape.length())
 				tape = tape.substring(0, index) + destination.action + tape.substring(index+1);
